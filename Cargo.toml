@@ -1,0 +1,8 @@
+[package]
+name = "raydium-poc"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+solana-program = "1.14.14" # Replace with the version used by Raydium
