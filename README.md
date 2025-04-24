@@ -1,2 +1,32 @@
-# Raydium-audit
-The update_amm_config function in the Raydium AMM v3 smart contract fails to properly validate input parameters before updating critical configuration settings. This oversight creates a significant security risk as an attacker can exploit this vulnerability in a production environment by injecting malicious values like extreme fee rates.
+# Reorganize the repo:
+/contracts     # Original Raydium code
+/audit
+  ├── findings.md   # Structured report
+  ├── poc/         # Proof-of-Concept exploits
+  └── tools.md     # Slither/Foundry configs used
+  # 🔎 Raydium Protocol Security Review  
+**Scope:** [List contracts audited, e.g., `Staking.sol`]  
+**Duration:** 2 weeks (June 2024)  
+**Tools:** Slither, Foundry, Manual Review  
+
+## 🚨 Critical Findings  
+1. **High: Missing Access Control in `withdraw()`**  
+   - **Impact:** Any user can drain funds.  
+   - **Fix:** Add `onlyOwner` modifier.  
+
+## 🔗 Links  
+- [Full Report](audit/findings.md)  
+- [Exploit PoC](audit/poc/reentrancy.sol)
+- ## 🕵️ Finding 1: Reentrancy in `claimRewards()`  
+**File:** `contracts/Staking.sol#L120`  
+**Severity:** HIGH  
+**Description:**  
+The function updates state after external calls, allowing recursive withdrawals.  
+
+**Proof of Concept:**  
+```solidity
+contract Exploit {
+    function attack() public {
+        staking.claimRewards(); // Recursive call
+    }
+}
