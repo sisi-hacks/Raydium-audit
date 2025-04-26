@@ -1,4 +1,3 @@
-# Reorganize the repo:
 /contracts     # Original Raydium code
 /audit
   ├── findings.md   # Structured report
